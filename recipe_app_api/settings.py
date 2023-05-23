@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recipe.apps.RecipeConfig',
+    'user.apps.UserConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_spectacular',
 ]
 
