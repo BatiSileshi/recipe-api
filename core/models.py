@@ -1,5 +1,5 @@
 '''DAtabase models'''
-
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -41,7 +41,28 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     
-    # assign tthis userr manager to custom user class
+    # assign this user manager to custom user class
     objects= UserManager()
     
     USERNAME_FIELD = 'email'
+    
+    
+class Recipe(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    description= models.TextField(blank=True)
+    time_minutes = models.IntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    tags = models.ManyToManyField('Tag')
+    
+    def __str__(self):
+        return self.title
+    
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
